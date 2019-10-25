@@ -1,0 +1,28 @@
+lobby:
+  maintenance:
+    1: false
+    2: false
+    3: false
+    4: false
+    5: false
+  servers:
+    1:
+      enabled: false
+      host: 167.86.92.68
+      port: 25567
+    2:
+      enabled: false
+      host: 167.86.92.68
+      port: 25568
+    3:
+      enabled: false
+      host: 167.86.92.68
+      port: 25569
+    4:
+      enabled: false
+      host: 167.86.92.68
+      port: 25570
+    5:
+      enabled: false
+      host: 167.86.92.68
+      port: 25571

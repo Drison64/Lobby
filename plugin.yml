@@ -1,0 +1,14 @@
+name: Lobby
+author: Drison64
+version: 0.1-ALPHA
+api-version: 1.8
+main: me.Drison64.Lobby.Main
+commands:
+  help:
+    description: Gives a help.
+  maintenance:
+    description: Maintenance.
+  edit:
+    description: Edit.
+  getuuid:
+    description: Returns UUID of player.
