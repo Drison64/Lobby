@@ -24,27 +24,32 @@ public class dailyReward implements Listener, InventoryHolder {
             e.setCancelled(true);
             Player player = (Player) e.getWhoClicked();
             if (e.getRawSlot() == 1) {
-                customConfig.get().set(player.getUniqueId() + ".dr_timestamp", Instant.now().getEpochSecond());
-                customConfig.save();
-                long now = Instant.now().getEpochSecond();
-                long finish = customConfig.get().getLong(player.getUniqueId() + ".dr_timestamp") + 10;
-                long seconds = (finish - now) % 60;
-                long hours = (finish - now) / 60;
-                long minutes = hours % 60;
-                hours = hours / 60;
-                String sseconds = String.valueOf(seconds);
-                String sminutes = String.valueOf(minutes);
-                String shours = String.valueOf(hours);
-                if (sseconds.length() == 1) {
-                    sseconds = "0" + sseconds;
+                if (e.getView().getTopInventory().getItem(1).getType().equals(Material.DIAMOND)) {
+                    customConfig.get().set(player.getUniqueId() + ".dr_timestamp", Instant.now().getEpochSecond());
+                    customConfig.save();
+                    long now = Instant.now().getEpochSecond();
+                    long finish = customConfig.get().getLong(player.getUniqueId() + ".dr_timestamp") + 10;
+                    long seconds = (finish - now) % 60;
+                    long hours = (finish - now) / 60;
+                    long minutes = hours % 60;
+                    hours = hours / 60;
+                    String sseconds = String.valueOf(seconds);
+                    String sminutes = String.valueOf(minutes);
+                    String shours = String.valueOf(hours);
+                    if (sseconds.length() == 1) {
+                        sseconds = "0" + sseconds;
+                    }
+                    if (sminutes.length() == 1) {
+                        sminutes = "0" + sminutes;
+                    }
+                    if (shours.length() == 1) {
+                        shours = "0" + shours;
+                    }
+                    player.getOpenInventory().getTopInventory().setItem(1, mkitem.mkitem(1, Material.COAL, "Daily Reward", Arrays.asList("", "Next in " + shours + ":" + sminutes + ":" + sseconds)));
+                    customConfig.reload();
+                    customConfig.get().set(player.getUniqueId() + ".coins", customConfig.get().getInt(player.getUniqueId() + ".coins") + 10);
+                    customConfig.save();
                 }
-                if (sminutes.length() == 1) {
-                    sminutes = "0" + sminutes;
-                }
-                if (shours.length() == 1) {
-                    shours = "0" + shours;
-                }
-                player.getOpenInventory().getTopInventory().setItem(1, mkitem.mkitem(1, Material.COAL, "Daily Reward", Arrays.asList("", "Next in " + shours + ":" + sminutes + ":" + sseconds)));
             }
         }
     }

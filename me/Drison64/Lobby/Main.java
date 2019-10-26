@@ -267,6 +267,15 @@ public class Main extends JavaPlugin implements Listener {
                                     customConfig.get().set(player.getUniqueId() + ".dr_timestamp", null);
                                     customConfig.save();
                                 }
+                            } else {
+                                if (!((finish - now) < 0)) {
+                                    player.getOpenInventory().getTopInventory().setItem(1, mkitem.mkitem(1, Material.COAL, "", Arrays.asList("", "Next in " + shours + ":" + sminutes + ":" + sseconds)));
+                                    player.updateInventory();
+                                } else {
+                                    player.getOpenInventory().setItem(1, new ItemStack(mkitem.mkitem(1, Material.DIAMOND, "Daily Reward", Arrays.asList("", "Click to get!"))));
+                                    customConfig.get().set(player.getUniqueId() + ".dr_timestamp", null);
+                                    customConfig.save();
+                                }
                             }
                         } else {
                             player.getOpenInventory().setItem(1, new ItemStack(mkitem.mkitem(1, Material.DIAMOND, "Daily Reward", Arrays.asList("", "Click to get!"))));
@@ -295,7 +304,25 @@ public class Main extends JavaPlugin implements Listener {
                     }
                 }
             }
-        }, 0L, 2L);
+        }, 0L, 1L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+                    customConfig.reload();
+                    objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+                    objective.setDisplayName("Name");
+                    Score score1 = objective.getScore("Coins: " + customConfig.get().get(player.getUniqueId() + ".coins"));
+                    score1.setScore(9);
+                    Score score = objective.getScore("");
+                    score.setScore(10);
+                    Score score2 = objective.getScore("");
+                    score2.setScore(8);
+                    player.setScoreboard(board);
+                }
+            }
+        }, 0L, 5L);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
@@ -350,8 +377,6 @@ public class Main extends JavaPlugin implements Listener {
             customConfig.get().set(player.getUniqueId() + ".coins", 1000);
             customConfig.save();
         }
-        Score score1 = objective.getScore("Coins: " + customConfig.get().get(player.getUniqueId() + ".coins"));
-        score1.setScore(9);
         player.setScoreboard(board);
         player.setGameMode(GameMode.ADVENTURE);
         Location spawn = new Location(Bukkit.getWorld("world"), 678.5, 127.5, -61.5, 180, 0);
@@ -423,6 +448,22 @@ public class Main extends JavaPlugin implements Listener {
 
         }*/
         return null;
+    }
+
+    public void updateScoreboard(Player player) {
+        Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective obj = sb.registerNewObjective("scoreboard", "dummy");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        customConfig.reload();
+        obj.setDisplayName("§6Server name");
+        obj.getScore("§6").setScore(5);
+        obj.getScore("§bHello " + player.getName()).setScore(4);
+        obj.getScore("§6").setScore(3);
+        obj.getScore("Coins: " + customConfig.get().getInt(player.getUniqueId() + ".coins")).setScore(2);
+        obj.getScore("§6").setScore(1);
+
+        player.setScoreboard(sb);
     }
 
 }

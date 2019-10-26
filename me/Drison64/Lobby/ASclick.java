@@ -27,24 +27,6 @@ public class ASclick implements Listener {
         if (entity.getType().equals(EntityType.ARMOR_STAND)) {
             if (entity.getCustomName().equals(ChatColor.BLUE + "Daily Reward")) {
                 customConfig.reload();
-                /*
-                if (customConfig.get().isSet("dailyreward." + player.getName() + ".timestamp")) {
-                    long now = Instant.now().getEpochSecond();
-                    long finish = customConfig.get().getLong("dailyreward." + player.getName() + ".timestamp") + 86400;
-                    player.openInventory(dailyReward.inv);
-                    long seconds = (finish - now) % 60;
-                    long hours = (finish - now) / 60;
-                    long minutes = hours % 60;
-                    hours = hours / 60;
-                    if (!((finish - now) == 0)) {
-                        dailyReward.inv.setItem(1, new ItemStack(mkitem.mkitem(1, Material.COAL, "Daily Reward", Arrays.asList("", "Next in " + hours + ":" + minutes + ":" + seconds))));
-                    } else {
-                        customConfig.get().set("dailyreward." + player.getName() + ".timestamp", null);
-                    }
-                } else {
-                    dailyReward.inv.setItem(1, new ItemStack(mkitem.mkitem(1, Material.DIAMOND, "Daily Reward", Arrays.asList("", "Click to get!"))));
-                }
-                */
                 player.openInventory(dailyReward.inv);
             } else if (entity.getCustomName().equals(ChatColor.BLUE + "Tic Tac Toe")) {
                 player.openInventory(Bukkit.createInventory(null, 27, "Tic tac toe menu"));
